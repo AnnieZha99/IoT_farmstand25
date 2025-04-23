@@ -1,0 +1,46 @@
+#include <SPI.h>
+#include <RH_RF95.h>
+
+#define RFM95_CS 8
+#define RFM95_RST 4
+#define RFM95_INT 3
+
+RH_RF95 rf95(RFM95_CS, RFM95_INT);
+
+void setup() {
+  Serial.begin(9600);
+  while (!Serial); // Wait for USB serial (debug)
+  
+  // Feather UART from UNO
+  Serial1.begin(9600); // RX1 pin reads from UNO TX
+
+  pinMode(RFM95_RST, OUTPUT);
+  digitalWrite(RFM95_RST, HIGH);
+
+  delay(10);
+  digitalWrite(RFM95_RST, LOW);
+  delay(10);
+  digitalWrite(RFM95_RST, HIGH);
+  delay(10);
+
+  if (!rf95.init()) {
+    Serial.println("LoRa init failed");
+    while (1);
+  }
+  
+  rf95.setFrequency(915.0);  // Adjust depending on your region
+  rf95.setTxPower(13, false);  // Power level: 5 to 23 dBm
+}
+
+void loop() {
+  if (Serial1.available()) {
+    String weight = Serial1.readStringUntil('\n');
+    Serial.print("Received from UNO: ");
+    Serial.println(weight);
+    
+    rf95.send((uint8_t*)weight.c_str(), weight.length());
+    rf95.waitPacketSent();
+    
+    Serial.println("LoRa message sent!");
+  }
+}
