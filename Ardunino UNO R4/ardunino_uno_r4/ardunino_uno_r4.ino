@@ -40,7 +40,8 @@ void setup() {
 void loop() {
 #ifdef CALIBRATION_MODE
   Serial.print("Raw reading: ");
-  Serial.println(scale.get_units(5));
+  long raw = scale.get_value(5);   // Average of 5 readings
+  Serial.println(raw); 
   delay(1000);
 #else
   float weight = scale.get_units(5);
