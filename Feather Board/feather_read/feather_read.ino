@@ -32,11 +32,12 @@ void setup() {
 void loop() {
   if (Serial1.available()) {
     String value = Serial1.readStringUntil('\n');
+    //char value = Serial1.read();
     Serial.print("Received raw: ");
     Serial.println(value);
 
-    rf95.send((uint8_t*)value.c_str(), value.length());
-    rf95.waitPacketSent();
-    Serial.println("Sent over LoRa");
+    //rf95.send((uint8_t*)value.c_str(), value.length());
+    //rf95.waitPacketSent();
+    //Serial.println("Sent over LoRa");
   }
 }

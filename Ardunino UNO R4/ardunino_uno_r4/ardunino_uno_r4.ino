@@ -14,7 +14,9 @@ float scaleFactor = 2280.0;
 
 void setup() {
   Serial.begin(9600);
+  Serial1.begin(9600);
   scale.begin(DOUT, CLK);
+  
 
 #ifdef CALIBRATION_MODE
   Serial.println("Calibration mode...");
@@ -40,8 +42,9 @@ void setup() {
 void loop() {
 #ifdef CALIBRATION_MODE
   Serial.print("Raw reading: ");
-  long raw = scale.get_value(5);   // Average of 5 readings
-  Serial.println(raw); 
+  float raw = scale.get_value(5);   // Average of 5 readings
+  Serial.println(raw);
+  Serial1.println(raw);
   delay(1000);
 #else
   float weight = scale.get_units(5);
