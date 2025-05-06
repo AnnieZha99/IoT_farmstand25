@@ -7,10 +7,10 @@
 HX711 scale;
 
 // Uncomment the next line to run calibration mode
-#define CALIBRATION_MODE
+//#define CALIBRATION_MODE
 
 // Replace this with your calibrated scale factor once done
-float scaleFactor = 2280.0;
+float scaleFactor = -4275.89;
 
 void setup() {
   Serial.begin(9600);
@@ -24,6 +24,7 @@ void setup() {
   delay(2000);
   scale.set_scale();
   scale.tare();
+  delay(2000);
   Serial.println("Now place a known weight on the scale.");
   Serial.println("Waiting 5 seconds...");
   delay(5000);
@@ -48,9 +49,8 @@ void loop() {
   delay(1000);
 #else
   float weight = scale.get_units(5);
-  Serial.print("Measured weight: ");
-  Serial.print(weight, 2);
-  Serial.println(" kg");
-  delay(1000);
+  Serial.println(weight); 
+  Serial1.println(weight); // sends e.g., "6.90\n"
+  delay(2000);
 #endif
 }
