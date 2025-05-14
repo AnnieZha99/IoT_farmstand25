@@ -46,7 +46,7 @@ void loop() {
   float raw = scale.get_value(5);   // Average of 5 readings
   Serial.println(raw);
   Serial1.println(raw);
-  delay(1000);
+  delay(30000);
 #else
   float weight = scale.get_units(5);
   Serial.println(weight); 
